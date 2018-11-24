@@ -15,13 +15,23 @@ func main() {
 	e.Use(middleware.Logger())
 
 	// Routes
-	e.GET("/", hello)
+	e.POST("/todos", create)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
 }
 
+type todo struct {
+	ID    string `json:"id"`
+	Topic string `json:"topic"`
+	Done  bool   `json:"done"`
+}
+
 // Handler
-func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
+func create(c echo.Context) error {
+	var newTodo todo
+	if err := c.Bind(&newTodo); err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+	return c.JSON(http.StatusOK, newTodo)
 }
