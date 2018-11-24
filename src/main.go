@@ -14,6 +14,7 @@ const (
 	url            = "localhost:27018"
 	database       = "gogetth"
 	todoCollection = "todos"
+	port = "1323"
 )
 
 func main() {
@@ -31,9 +32,10 @@ func main() {
 	e.GET("/todos", handler.list)
 	e.POST("/todos", handler.create)
 	e.GET("/todos/:id", handler.view)
+	e.PUT("/todos/:id", handler.done)
 
 	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(port))
 }
 
 type todo struct {
@@ -93,4 +95,42 @@ func (handler Handler)view(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, todo)
+}
+
+func  (handler Handler)done(c echo.Context) error {
+	session := handler.session.Copy()
+	defer session.Close()
+	
+	id := bson.ObjectIdHex(c.Param("id"))
+
+	var todo todo
+	collection := session.DB(database).C(todoCollection)
+	
+	if err := collection.FindId(id).One(&todo); err != nil {
+		return err
+	}
+
+	todo.Done = true
+
+	if err := collection.UpdateId(id, todo); err != nil {
+		return err
+	}
+
+	
+	return c.JSON(http.StatusOK, todo)
+}
+
+func (handler Handler)delete(c echo.Context) error {
+	session := handler.session.Copy()
+	defer session.Close()
+	
+	id := bson.ObjectIdHex(c.Param("id"))
+
+	collection := session.DB(database).C(todoCollection)
+	
+	if err := collection.RemoveId(id); err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, nil)
 }
