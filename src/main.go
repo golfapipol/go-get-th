@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"log"
 	"github.com/globalsign/mgo/bson"
 	"net/http"
@@ -8,16 +9,20 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/globalsign/mgo"
+	"github.com/spf13/viper"
 )
 
 const (
-	url            = "localhost:27018"
-	database       = "gogetth"
+	database      = "gogetth"
 	todoCollection = "todos"
-	port = "1323"
 )
 
 func main() {
+	viper.AutomaticEnv()
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+	url := viper.GetString("mongo.url")
+	port := ":" + viper.GetString("port")
+
 	session, err := mgo.Dial(url)
 	if err != nil {
 		log.Fatal(err)
@@ -33,6 +38,7 @@ func main() {
 	e.POST("/todos", handler.create)
 	e.GET("/todos/:id", handler.view)
 	e.PUT("/todos/:id", handler.done)
+	e.DELETE("/todos/:id", handler.delete)
 
 	// Start server
 	e.Logger.Fatal(e.Start(port))

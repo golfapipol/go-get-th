@@ -34,11 +34,11 @@ require (
 	github.com/mibk/dupl v1.0.0 // indirect
 	github.com/nicksnyder/go-i18n v1.10.0 // indirect
 	github.com/opennota/check v0.0.0-20180911053232-0c771f5545ff // indirect
-	github.com/pelletier/go-toml v1.2.0 // indirect
 	github.com/ramya-rao-a/go-outline v0.0.0-20181122025142-7182a932836a // indirect
 	github.com/rogpeppe/godef v1.0.0 // indirect
 	github.com/securego/gosec v0.0.0-20181111085728-2695567487c0 // indirect
 	github.com/skratchdot/open-golang v0.0.0-20160302144031-75fb7ed4208c // indirect
+	github.com/spf13/viper v1.2.1
 	github.com/sqs/goreturns v0.0.0-20181028201513-538ac6014518 // indirect
 	github.com/stretchr/testify v1.2.2
 	github.com/stripe/safesql v0.0.0-20171221195208-cddf355596fe // indirect
@@ -53,7 +53,6 @@ require (
 	golang.org/x/tools v0.0.0-20181122213734-04b5d21e00f1 // indirect
 	gopkg.in/alecthomas/kingpin.v3-unstable v3.0.0-20180810215634-df19058c872c // indirect
 	gopkg.in/mgo.v2 v2.0.0-20180705113604-9856a29383ce
-	gopkg.in/yaml.v2 v2.2.1 // indirect
 	honnef.co/go/tools v0.0.0-20180920025451-e3ad64cb4ed3 // indirect
 	mvdan.cc/interfacer v0.0.0-20180901003855-c20040233aed // indirect
 	mvdan.cc/unparam v0.0.0-20181021212735-8e9846b49e8a // indirect
