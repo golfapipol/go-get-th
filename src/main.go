@@ -1,10 +1,18 @@
 package main
 
 import (
+	"github.com/globalsign/mgo/bson"
 	"net/http"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"github.com/globalsign/mgo"
+)
+
+const (
+	url            = "localhost:27018"
+	database       = "gogetth"
+	todoCollection = "todos"
 )
 
 func main() {
@@ -22,9 +30,9 @@ func main() {
 }
 
 type todo struct {
-	ID    string `json:"id"`
-	Topic string `json:"topic"`
-	Done  bool   `json:"done"`
+	ID    bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
+	Topic string        `json:"topic" bson:"topic"`
+	Done  bool          `json:"done" bson:"done"`
 }
 
 // Handler
@@ -33,5 +41,16 @@ func create(c echo.Context) error {
 	if err := c.Bind(&newTodo); err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
+	session, err := mgo.Dial(url)
+	if err != nil {
+		return err
+	}
+	newTodo.ID = bson.NewObjectId()
+	collection := session.DB(database).C(todoCollection)
+
+	if err = collection.Insert(&newTodo); err != nil {
+		return err
+	}
+
 	return c.JSON(http.StatusOK, newTodo)
 }
