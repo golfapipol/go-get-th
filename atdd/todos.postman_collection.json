@@ -55,6 +55,54 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "create ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "603a4528-cb97-4ef9-ae34-a652e88e391e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"todo item should be go get th#3\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.topic).to.eql(\"go get th #3\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"topic\": \"go get th #3\",\n\t\"done\": false\n}"
+				},
+				"url": {
+					"raw": "localhost:1323/todos",
+					"host": [
+						"localhost"
+					],
+					"port": "1323",
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
