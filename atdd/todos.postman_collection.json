@@ -1,0 +1,60 @@
+{
+	"info": {
+		"_postman_id": "b5d3535c-06d9-4f50-acb1-f4ace612e7bd",
+		"name": "todos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "list all",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "286d727c-54e2-4bee-8ef0-a2ecb9e322ed",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"list all todo list have 2 items\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.eql(2);",
+							"});",
+							"",
+							"pm.test(\"first todo is learn go\", function () {",
+							"    var todo = pm.response.json()[0];",
+							"    pm.expect(todo.title).to.eql(\"learn go\");",
+							"});",
+							"",
+							"pm.test(\"second todo is get job\", function () {",
+							"    var todo = pm.response.json()[1];",
+							"    pm.expect(todo.title).to.eql(\"get job\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/todos",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
