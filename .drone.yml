@@ -2,7 +2,12 @@ kind: pipeline
 name: default
 
 steps:
-- name: build
+- name: test
   image: golang:1.11
   commands:
   - go test ./...
+
+- name: build
+  image: golang:1.11
+  commands:
+  - go build
